@@ -1,7 +1,6 @@
 import java.awt.*;
 
 public class Field {
-    public Drawer drawer;
     public int[][] field;
     private int width;
     private int height;
@@ -12,18 +11,15 @@ public class Field {
         this.width = width;
         this.height = height;
         this.cellSize = cellSize;
-    }
-
-    public Drawer getDrawer() {
-        return drawer;
-    }
-
-    public void setDrawer(Drawer drawer) {
-        this.drawer = drawer;
+        setCellValue(width/2, height/2, 1);
     }
 
     public void setCellValue(int x, int y, int value) {
         this.field[x % width][y % height] = value;
+    }
+
+    public void applyState(int[][] ints) {
+        field = ints;
     }
 
     public void drawField(Graphics g) {

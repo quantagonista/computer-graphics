@@ -1,68 +1,19 @@
 import java.util.HashMap;
 
 public class Crystal extends Drawer {
-    private int seed;
     private HashMap<String, Integer> rules;
-    private int x;
-    private int y;
 
-    public Crystal(int seed, int x, int y) {
-        this.seed = seed;
-        this.rules = getRules(this.seed);
-        this.x = x;
-        this.y = y;
-    }
-
-    private static void printField(int[][] field) {
-        int height = field.length;
-        int width = field[0].length;
-        for (int i = 0; i < height; i++) {
-            for (int j = 0; j < width; j++) {
-                System.out.print(field[i][j] + " ");
-            }
-            System.out.println();
-        }
-
-    }
-
-    public void setOnField(Field field) {
-        field.setCellValue(x, y, 1);
+    public Crystal(int seed) {
+        this.rules = getRules(seed);
     }
 
     private HashMap<String, Integer> getRules(int seed) {
-        try {
-            int[][] crystal = Rules.getCrystal(seed);
-            HashMap<String, Integer> rules = new HashMap<>();
-            for (int i = 0; i < 10; i++) {
-                int value = crystal[0][i];
-                String key = String.valueOf(crystal[2][i]) + String.valueOf(crystal[1][i]);
-                rules.put(key, value);
-            }
-
-            return rules;
-
-        } catch (Exception e) {
-            e.printStackTrace();
-
-            return null;
-        }
+        return Rules.getCrystal(seed);
     }
 
     @Override
-    public void nextStep(int[][] field) {
-        int[][] nextState = calculateState(field);
-        printField(nextState);
-        applyState(field, nextState);
-    }
-
-    private void applyState(int[][] field, int[][] nextState) {
-        int height = field.length;
-        int width = field[0].length;
-        for (int y = 0; y < height; y++) {
-            for (int x = 0; x < width; x++) {
-                field[y][x] = nextState[y][x];
-            }
-        }
+    public int[][] nextStep(Field field) {
+        return calculateState(field.field);
     }
 
     private int[][] calculateState(int[][] field) {
@@ -94,17 +45,11 @@ public class Crystal extends Drawer {
         int left = (leftX >= 0) ? field[y][leftX] : 0;
         int right = (rightX < width) ? field[y][rightX] : 0;
 
-        int count = top + bottom + left + right;
-        return count;
+        return top + bottom + left + right;
     }
 
     private int findRule(int current, int count) {
-        String key = getKey(current, count);
+        String key = String.valueOf(current) + String.valueOf(count);
         return this.rules.get(key);
-    }
-
-
-    private String getKey(int current, int count) {
-        return String.valueOf(current) + String.valueOf(count);
     }
 }

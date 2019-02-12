@@ -2,14 +2,13 @@ import javax.swing.*;
 import java.awt.*;
 
 public class CellularAutomataPanel extends JPanel {
-    public Field field;
+    private Crystal crystal;
+    private Field field;
 
     public CellularAutomataPanel() {
         super();
-        this.field = new Field(20, 20, 2);
-        Drawer crystal = new Crystal(465, 10, 10);
-        this.field.setDrawer(crystal);
-        this.field.drawer.setOnField(this.field);
+        this.field = new Field(50, 50, 4);
+        this.crystal = new Crystal(465);
     }
 
     @Override
@@ -19,7 +18,7 @@ public class CellularAutomataPanel extends JPanel {
     }
 
     public void nextStep() {
-        field.drawer.nextStep(field.field);
+        field.applyState(crystal.nextStep(field));
         this.repaint();
     }
 }

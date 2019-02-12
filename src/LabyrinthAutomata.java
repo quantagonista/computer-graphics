@@ -13,7 +13,7 @@ public class LabyrinthAutomata {
     }
 
     private static void startTimer(CellularAutomataPanel panel) {
-        Timer timer = new Timer(10, new AbstractAction() {
+        Timer timer = new Timer(200, new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 panel.nextStep();

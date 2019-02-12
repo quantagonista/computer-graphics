@@ -22,20 +22,24 @@ public class Turmit extends Drawer {
         return (Rule) rules.get(state + color);
     }
 
-    public void nextStep(int[][] field) {
-        int width = field.length;
-        int height = field[0].length;
+    public int[][] nextStep(Field field) {
+        int width = field.field.length;
+        int height = field.field[0].length;
+
+        int[][] newState = new int[width][height];
+
         int X = x % width;
         int Y = y % height;
 
-        int color = field[X][Y];
+        int color = field.field[X][Y];
         Rule rule = findRule(state, color);
 
-        field[X][Y] = rule.nextColor;
+        newState[X][Y] = rule.nextColor;
         state = rule.nextState;
 
         findDirection(rule.turn);
         move();
+        return newState;
     }
 
     private void move() {
